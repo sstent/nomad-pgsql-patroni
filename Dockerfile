@@ -104,6 +104,5 @@ COPY ./files/001_initdb_postgis.sh /docker-entrypoint-initdb.d/001_initdb_postgi
 RUN mkdir /store
 COPY ./files/update-postgis.sh /usr/local/bin
 COPY ./files/docker-initdb.sh /usr/local/bin
-
-# USER postgres
+USER postgres
 CMD ["patroni", "/secrets/patroni.yml"]
