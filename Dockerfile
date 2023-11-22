@@ -105,5 +105,5 @@ RUN mkdir /store
 COPY ./files/update-postgis.sh /usr/local/bin
 COPY ./files/docker-initdb.sh /usr/local/bin
 
-USER postgres
+# USER postgres
 CMD ["patroni", "/secrets/patroni.yml"]
