@@ -26,7 +26,7 @@ RUN mkdir -p ${GOPATH}/src/github.com/timescale/ \
 ############################
 # Build Postgres extensions
 ############################
-FROM postgres:16.2 AS ext_build
+FROM postgres:15 AS ext_build
 ARG PG_MAJOR
 
 RUN set -x \
@@ -49,23 +49,23 @@ RUN set -x \
     && make install \
     \
     # Download pg_idkit
-    && curl -LO https://github.com/VADOSWARE/pg_idkit/releases/download/v0.2.1/pg_idkit-0.2.1-pg16-gnu.tar.gz \
-    && tar xf pg_idkit-0.2.1-pg16-gnu.tar.gz \
-    && cp -r pg_idkit-0.2.1/lib/postgresql/* /usr/lib/postgresql/16/lib/ \
-    && cp -r pg_idkit-0.2.1/share/postgresql/extension/* /usr/share/postgresql/16/extension/
+    && curl -LO https://github.com/VADOSWARE/pg_idkit/releases/download/v0.2.1/pg_idkit-0.2.1-pg15-gnu.tar.gz \
+    && tar xf pg_idkit-0.2.1-pg15-gnu.tar.gz \
+    && cp -r pg_idkit-0.2.1/lib/postgresql/* /usr/lib/postgresql/15/lib/ \
+    && cp -r pg_idkit-0.2.1/share/postgresql/extension/* /usr/share/postgresql/15/extension/
 
 ############################
 # Add Timescale, PostGIS and Patroni
 ############################
-FROM postgres:16.2
+FROM postgres:15
 ARG PG_MAJOR
 ARG POSTGIS_MAJOR
 ARG TIMESCALEDB_MAJOR
 
 # Add extensions
 COPY --from=tools /go/bin/* /usr/local/bin/
-COPY --from=ext_build /usr/share/postgresql/16/ /usr/share/postgresql/16/
-COPY --from=ext_build /usr/lib/postgresql/16/ /usr/lib/postgresql/16/
+COPY --from=ext_build /usr/share/postgresql/15/ /usr/share/postgresql/15/
+COPY --from=ext_build /usr/lib/postgresql/15/ /usr/lib/postgresql/15/
 
 RUN set -x \
     && apt-get update -y \
