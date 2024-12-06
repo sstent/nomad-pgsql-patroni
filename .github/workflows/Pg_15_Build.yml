@@ -32,5 +32,5 @@ jobs:
         with:
           platforms: Linux/amd64, linux/arm64/v8
           push: true
-          tags: ghcr.io/sstent/nomad-pgsql-patroni:pg15 
+          tags: ghcr.io/sstent/nomad-pgsql-patroni:pg15,  ghcr.io/sstent/nomad-pgsql-patroni:latest
           
